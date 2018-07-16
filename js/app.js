@@ -36,3 +36,44 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ var deck = document.querySelector('.deck');
+ var flippedCards = [];
+ var matchedCards = 0;
+
+ deck.addEventListener('click', function () {
+   const targetCard = event.target;
+   if(targetCard.classList.contains('card') && flippedCards.length < 2){
+     flipCard(targetCard);
+     numFlippedCards(targetCard);
+     if(flippedCards.length === 2){
+       aMatch(targetCard);
+     }
+   }
+ })
+
+ function flipCard(targetCard){
+   targetCard.classList.add('show','open');
+ }
+
+ function numFlippedCards(targetCard){
+   flippedCards.push(targetCard);
+ }
+
+ function aMatch() {
+   if (
+     flippedCards[0].firstElementChild.className ===
+     flippedCards[1].firstElementChild.className
+   ){
+     flippedCards[0].classList.add('match');
+     flippedCards[1].classList.add('match');
+     flippedCards = [];
+     matchedCards = matchedCards +2;
+   } else {
+     setTimeout(()=> {
+       flippedCards[0].classList.remove('show', 'open');
+       flippedCards[1].classList.remove('show', 'open');
+       flippedCards = [];
+     }, 500);
+   }
+ }
