@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+const deck = document.querySelector('.deck');
 
 /*
  * Display the cards on the page
@@ -9,6 +9,12 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+const cards = shuffle(Array.from(document.querySelectorAll('.card')));
+
+for (card of cards) {
+  deck.appendChild(card);
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -37,27 +43,33 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- var deck = document.querySelector('.deck');
- var reset = document.querySelector('.restart');
- var cards = Array.from(document.querySelectorAll('.card'));
- var flippedCards = [];
- var matchedCards = 0;
+deck.addEventListener('click', playGame);
+
+let flippedCards = [];
+let matches = 0;
+let countMoves = 0;
+let score = document.querySelector('.stars');
+
+
+//var reset = document.querySelector('.restart');
 
 
 //function restartGame () {
     //card.classList.remove('show', 'open', 'match');
 //}
 
- deck.addEventListener('click', function () {
+function playGame(e) {
    const targetCard = event.target;
-   if(targetCard.classList.contains('card') && flippedCards.length < 2 && !flippedCards.includes(targetCard)){
+   if(targetCard.classList.contains('card') && flippedCards.length < 2 && !flippedCards.includes(targetCard)  && !flippedCards.includes('match')){
      flipCard(targetCard);
      numFlippedCards(targetCard);
      if(flippedCards.length === 2){
+       countMoves = countMoves +1;
        aMatch(targetCard);
+       numStars();
      }
    }
- })
+ }
 
  function flipCard(targetCard){
    targetCard.classList.add('show','open');
@@ -75,7 +87,7 @@ function shuffle(array) {
      flippedCards[0].classList.add('match');
      flippedCards[1].classList.add('match');
      flippedCards = [];
-     matchedCards = matchedCards +2;
+     matches = matches +1;
    } else {
      setTimeout(function(){
        flippedCards[0].classList.remove('show', 'open');
@@ -83,4 +95,16 @@ function shuffle(array) {
        flippedCards = [];
      }, 300);
    }
+ }
+
+ function numStars (){
+   if (countMoves > 15 && countMoves < 25 && score.children.length === 3){
+     let removeStar = score.children[2];
+     score.removeChild(removeStar);
+   }
+   else if (countMoves >= 25 && score.children.length === 2) {
+     let removeStar2 = score.children[1];
+     score.removeChild(removeStar2);
+   }
+
  }
