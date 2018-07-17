@@ -38,12 +38,19 @@ function shuffle(array) {
  */
 
  var deck = document.querySelector('.deck');
+ var reset = document.querySelector('.restart');
+ var cards = Array.from(document.querySelectorAll('.card'));
  var flippedCards = [];
  var matchedCards = 0;
 
+
+//function restartGame () {
+    //card.classList.remove('show', 'open', 'match');
+//}
+
  deck.addEventListener('click', function () {
    const targetCard = event.target;
-   if(targetCard.classList.contains('card') && flippedCards.length < 2){
+   if(targetCard.classList.contains('card') && flippedCards.length < 2 && !flippedCards.includes(targetCard)){
      flipCard(targetCard);
      numFlippedCards(targetCard);
      if(flippedCards.length === 2){
@@ -70,10 +77,10 @@ function shuffle(array) {
      flippedCards = [];
      matchedCards = matchedCards +2;
    } else {
-     setTimeout(()=> {
+     setTimeout(function(){
        flippedCards[0].classList.remove('show', 'open');
        flippedCards[1].classList.remove('show', 'open');
        flippedCards = [];
-     }, 500);
+     }, 300);
    }
  }
