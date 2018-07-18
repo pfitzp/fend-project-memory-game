@@ -1,8 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
+ //global variables
 const deck = document.querySelector('.deck');
-
+const reset = document.querySelector('.restart');
+const timer = document.querySelector('.clock');
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -43,42 +45,55 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+//event listener for clicks on cards
 deck.addEventListener('click', playGame);
 
+//event listener to restart game
+reset.addEventListener('click', resetGame);
+
+//variables
 let flippedCards = [];
 let matches = 0;
 let countMoves = 0;
 let score = document.querySelector('.stars');
+let moves = document.querySelector('.moves');
+let startTimer = true;
+let time = 0;
+let seconds = 0;
+let minutes = 0;
 
-
-//var reset = document.querySelector('.restart');
-
-
-//function restartGame () {
-    //card.classList.remove('show', 'open', 'match');
-//}
-
+//function to start game verify clicks as valid
 function playGame(e) {
    const targetCard = event.target;
    if(targetCard.classList.contains('card') && flippedCards.length < 2 && !flippedCards.includes(targetCard)  && !flippedCards.includes('match')){
      flipCard(targetCard);
      numFlippedCards(targetCard);
-     if(flippedCards.length === 2){
-       countMoves = countMoves +1;
-       aMatch(targetCard);
-       numStars();
+         if (startTimer){
+            startClock();
+            startTimer = false;
      }
+    }
+    if(flippedCards.length === 2){
+      countMoves = countMoves +1;
+      aMatch(targetCard);
+      numStars();
+      recordMoves(countMoves);
    }
  }
+//
 
+
+// flip to show card
  function flipCard(targetCard){
    targetCard.classList.add('show','open');
  }
 
+// count number of cards flipped
  function numFlippedCards(targetCard){
    flippedCards.push(targetCard);
  }
 
+// determine if flipped card match, if not flip back
  function aMatch() {
    if (
      flippedCards[0].firstElementChild.className ===
@@ -93,18 +108,53 @@ function playGame(e) {
        flippedCards[0].classList.remove('show', 'open');
        flippedCards[1].classList.remove('show', 'open');
        flippedCards = [];
-     }, 300);
+     }, 500);
    }
  }
 
+//remove stars based on number of moves made
  function numStars (){
-   if (countMoves > 15 && countMoves < 25 && score.children.length === 3){
-     let removeStar = score.children[2];
-     score.removeChild(removeStar);
+   if (countMoves >= 15 && countMoves < 25 && score.children.length === 3){
+     let removeStar1 = score.children[2];
+     score.removeChild(removeStar1);
    }
-   else if (countMoves >= 25 && score.children.length === 2) {
-     let removeStar2 = score.children[1];
-     score.removeChild(removeStar2);
+     if (countMoves >= 25 && countMoves <35 && score.children.length === 2) {
+       let removeStar2 = score.children[1];
+       score.removeChild(removeStar2);
    }
+      else if (countMoves >=35 && score.children.length === 1){
+        let removeStar3 = score.children[0];
+        score.removeChild(removeStar3);
+    }
+}
 
+//count number of moves made
+ function recordMoves (){
+   moves.innerHTML = countMoves;
  }
+
+//reload page to start new game
+function resetGame (){
+  window.location.reload();
+}
+
+//start clock
+function startClock(){
+  let clock = setInterval(function(){
+    seconds++;
+    if (seconds === 60){
+      minutes++;
+      seconds = 0;
+    }
+    displayTimer();
+  }, 1000);
+}
+
+//timer display format
+function displayTimer() {
+  if (seconds < 10){
+    timer.innerHTML = `${minutes}:0${seconds}`;
+  } else {
+    timer.innerHTML = `${minutes}:${seconds}`;
+  }
+}
