@@ -61,6 +61,7 @@ let startTimer = true;
 let time = 0;
 let seconds = 0;
 let minutes = 0;
+let clock;
 
 //function to start game verify clicks as valid
 function playGame(e) {
@@ -78,6 +79,11 @@ function playGame(e) {
       aMatch(targetCard);
       numStars();
       recordMoves(countMoves);
+   }
+   if(matches === 8){
+     stopClock();
+     openModal();
+     modalStats();
    }
  }
 //
@@ -140,7 +146,7 @@ function resetGame (){
 
 //start clock
 function startClock(){
-  let clock = setInterval(function(){
+  clock = setInterval(function(){
     seconds++;
     if (seconds === 60){
       minutes++;
@@ -157,4 +163,38 @@ function displayTimer() {
   } else {
     timer.innerHTML = `${minutes}:${seconds}`;
   }
+}
+
+//stop clock
+function stopClock() {
+  clearInterval(clock);
+}
+//modal functionality
+const modal = document.querySelector('.modalBackground');
+const closeButton = document.querySelector('.closeBtn');
+const restartButton = document.querySelector('button');
+
+function openModal (){
+  modal.classList.remove('hide');
+}
+
+function closeModal () {
+  modal.classList.add('hide');
+}
+
+closeButton.addEventListener('click', closeModal);
+
+restartButton.addEventListener('click', resetGame);
+
+
+
+//write stats to modal
+function modalStats () {
+  const modalTime = document.querySelector('.modal-time');
+  const clockTime = document.querySelector('.clock').innerHTML;
+  modalTime.innerHTML = `Time = ${clockTime}`;
+  const modalMoves = document.querySelector('.modal-moves');
+  modalMoves.innerHTML = `Moves = ${countMoves}`;
+  const modalStars = document.querySelector('.modal-stars');
+  modalStars.innerHTML = `Stars = ${score.children.length}`;
 }
