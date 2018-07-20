@@ -169,24 +169,29 @@ function displayTimer() {
 function stopClock() {
   clearInterval(clock);
 }
+
+
 //modal functionality
+
+//modal variables
 const modal = document.querySelector('.modalBackground');
 const closeButton = document.querySelector('.closeBtn');
 const restartButton = document.querySelector('button');
 
+//function to open Modal
 function openModal (){
   modal.classList.remove('hide');
 }
 
+//function to close Modal with button
 function closeModal () {
   modal.classList.add('hide');
 }
 
+//Modal event listeners
 closeButton.addEventListener('click', closeModal);
 
 restartButton.addEventListener('click', resetGame);
-
-
 
 //write stats to modal
 function modalStats () {

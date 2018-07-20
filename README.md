@@ -1,20 +1,15 @@
-# Memory Game Project
+##Paul's Memory Game Project
+
+This is a classic Memory Card Game.  Runs on all current internet browsers.
 
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Object of the game is to turn cards over two at a time, until all 8 matches are found.  
 
-To get started, open `js/app.js` and start building out the app's functionality
+As the first card is turned over the clock will start until you have found the last match.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+Game will also count each move you make (two flips).  After 15 moves you will lose one start, at 25 moves you will lose a second start and at 35 moves you will lose the third star.
